@@ -2,17 +2,14 @@
     <div class="rankDetail">
         <div class="content" v-if="Object.keys(detailInfo).length">
             <div class="rank-header">
-                <div
-                    class="cover my-cover"
-                    :style="`backgroundImage: url(${detailInfo.album.coverImgUrl})`"
-                ></div>
+                <div class="cover my-cover" :style="`backgroundImage: url(${detailInfo.album.picUrl}?param=200y200)`"></div>
                 <div class="rank-info">
                     <div class="tit">
                         <div class="name">{{detailInfo.album.name}}</div>
                         <div class="count">
-                            <span class="track-count">歌曲数：{{detailInfo.album.trackCount}}</span>
+                            <span class="track-count">歌曲数：{{detailInfo.album.size}}</span>
                             <span class="divider"></span>
-                            <span>播放数：{{detailInfo.album.playCount | playCount}}</span>
+                            <span>收藏数：{{detailInfo.album.info.likedCount | playCount}}</span>
                         </div>
                     </div>
                     <div class="author">
@@ -21,7 +18,7 @@
                             :style="`backgroundImage: url(${detailInfo.album.creator.avatarUrl})`"
                         ></div>-->
                         <!-- <div class="name">{{detailInfo.creator.nickname}}</div> -->
-                        <div class="date">最近更新：{{detailInfo.updateTime | formatDate}}</div>
+                        <div class="date">发布时间：{{detailInfo.album.publishTime | formatDate}}</div>
                     </div>
                     <div class="operation">
                         <div class="play-btn btn main">
@@ -68,10 +65,7 @@
                         <span class="text-cut">{{item.name}}</span>
                     </div>
                     <div class="artist item text-cut">
-                        <span
-                            v-for="(ar, index) in item.ar"
-                            :key="index"
-                        >{{index === 0 ? ar.name : `/${ar.name}`}}</span>
+                        <span v-for="(ar, index) in item.ar" :key="index">{{index === 0 ? ar.name : `/${ar.name}`}}</span>
                     </div>
                     <div class="album item text-cut">{{item.al.name}}</div>
                     <div class="duration item">{{item.dt | transTime}}</div>
@@ -84,9 +78,7 @@
 <script>
 export default {
     async created() {
-        const { data } = await this.$http.get(
-            `/album?id=${this.$route.params.id}`
-        )
+        const { data } = await this.$http.get(`/album?id=${this.$route.params.id}`)
         console.log(data)
         this.detailInfo = data
     },

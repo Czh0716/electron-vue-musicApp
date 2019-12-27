@@ -35,10 +35,7 @@
 
                         <div class="play-btn btn">
                             <v-icon v-show="!music.playStatus" @click="playMusic">mdi-google-play</v-icon>
-                            <v-icon
-                                v-show="music.playStatus"
-                                @click="pauseMusic"
-                            >mdi-pause-octagon-outline</v-icon>
+                            <v-icon v-show="music.playStatus" @click="pauseMusic">mdi-pause-octagon-outline</v-icon>
                         </div>
                     </div>
                 </div>
@@ -76,24 +73,24 @@
                 </div>
                 <div class="text">MV</div>
             </router-link>
-            <div v-ripple class="nav-item">
-                <div class="icon">
-                    <v-icon>mdi-radio</v-icon>
-                </div>
-                <div class="text">电台</div>
-            </div>
-            <router-link to="/localMusic" v-ripple class="nav-item">
-                <div class="icon">
-                    <v-icon>mdi-monitor</v-icon>
-                </div>
-                <div class="text">本地音乐</div>
-            </router-link>
             <router-link to="/collect" v-ripple class="nav-item">
                 <div class="icon">
                     <v-icon>mdi-map-legend</v-icon>
                 </div>
                 <div class="text">我的收藏</div>
             </router-link>
+            <router-link to="/localMusic" v-ripple class="nav-item">
+                <div class="icon">
+                    <v-icon>mdi-monitor</v-icon>
+                </div>
+                <div class="text">本地音乐</div>
+            </router-link>
+            <div v-ripple class="nav-item">
+                <div class="icon">
+                    <v-icon>mdi-radio</v-icon>
+                </div>
+                <div class="text">电台</div>
+            </div>
             <div v-ripple class="nav-item">
                 <div class="icon">
                     <v-icon>mdi-folder-outline</v-icon>
@@ -186,11 +183,7 @@ export default {
                     .cur-progress {
                         height: 100%;
                         cursor: pointer;
-                        background: linear-gradient(
-                            90deg,
-                            rgba(255, 192, 203, 0.671),
-                            pink
-                        );
+                        background: linear-gradient(90deg, rgba(255, 192, 203, 0.671), pink);
                         background-repeat: no-repeat;
                     }
                 }

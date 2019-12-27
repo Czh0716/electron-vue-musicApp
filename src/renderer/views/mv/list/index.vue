@@ -61,11 +61,7 @@ export default {
     },
     data() {
         return {
-            mvLists: Array.from({ length: 10 }, (item, index) => {
-                return {
-                    id: index
-                }
-            }),
+            mvLists: [],
             total: 0,
             limit: 24,
             areas: ['全部', '内地', '港台', '欧美', '韩国', '日本'],
