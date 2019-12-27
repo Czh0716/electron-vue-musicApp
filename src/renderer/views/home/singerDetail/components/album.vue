@@ -1,14 +1,11 @@
 <template>
     <div class="ablum">
-        <div class="slide-item" v-for="item in albumData" :key="item.id">
+        <router-link :to="`/home/albumDetail/${item.id}`" class="slide-item" v-for="item in albumData" :key="item.id">
             <div class="cover-wrap">
-                <div
-                    class="cover my-cover"
-                    :style="`backgroundImage: url(${item.picUrl}?param=300y300)`"
-                ></div>
+                <div class="cover my-cover" :style="`backgroundImage: url(${item.picUrl}?param=300y300)`"></div>
             </div>
             <div class="name">{{item.name}}</div>
-        </div>
+        </router-link>
     </div>
 </template>
 
@@ -24,9 +21,7 @@ export default {
     },
     methods: {
         async getAlbum() {
-            const { data } = await this.$http.get(
-                `/artist/album?id=${this.$attrs.id}`
-            )
+            const { data } = await this.$http.get(`/artist/album?id=${this.$attrs.id}`)
             this.albumData = data.hotAlbums
         }
     }

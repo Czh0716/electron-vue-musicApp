@@ -9,7 +9,7 @@
                         <div class="count">
                             <span class="track-count">歌曲数：{{detailInfo.album.size}}</span>
                             <span class="divider"></span>
-                            <span>收藏数：{{detailInfo.album.info.likedCount | playCount}}</span>
+                            <span>分享数：{{detailInfo.album.info.shareCount | playCount}}</span>
                         </div>
                     </div>
                     <div class="author">
