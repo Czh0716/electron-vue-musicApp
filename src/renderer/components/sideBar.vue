@@ -35,7 +35,10 @@
 
                         <div class="play-btn btn">
                             <v-icon v-show="!music.playStatus" @click="playMusic">mdi-google-play</v-icon>
-                            <v-icon v-show="music.playStatus" @click="pauseMusic">mdi-pause-octagon-outline</v-icon>
+                            <v-icon
+                                v-show="music.playStatus"
+                                @click="pauseMusic"
+                            >mdi-pause-octagon-outline</v-icon>
                         </div>
                     </div>
                 </div>
@@ -97,18 +100,18 @@
                 </div>
                 <div class="text">下载管理</div>
             </div>
-            <div v-ripple class="nav-item">
+            <router-link to="/dynamic" v-ripple class="nav-item">
                 <div class="icon">
                     <v-icon>mdi-spider-web</v-icon>
                 </div>
                 <div class="text">动态</div>
-            </div>
-            <div v-ripple class="nav-item">
+            </router-link>
+            <router-link to="/playRecords" v-ripple class="nav-item">
                 <div class="icon">
                     <v-icon>mdi-history</v-icon>
                 </div>
                 <div class="text">播放历史</div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>

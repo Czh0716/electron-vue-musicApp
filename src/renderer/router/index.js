@@ -77,6 +77,16 @@ export default new Router({
             }
         },
         {
+            path: '/playRecords',
+            name: 'playRecords',
+            component: () => import('@/views/playRecords')
+        },
+        {
+            path: '/dynamic',
+            name: 'dynamic',
+            component: () => import('@/views/dynamic')
+        },
+        {
             path: '/test',
             component: () => import('@/components/test.vue')
         },

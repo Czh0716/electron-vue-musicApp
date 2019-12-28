@@ -55,6 +55,7 @@ export default {
             this.$store.dispatch('initAudioElement', this.$refs.player)
         })
     },
+    
     data() {
         return {
             themeColor: '#F59898',

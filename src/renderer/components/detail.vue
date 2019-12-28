@@ -1,10 +1,7 @@
 <template>
     <div class="detail">
         <div class="bg">
-            <div
-                class="pic my-cover"
-                :style="`backgroundImage: url(${music.musicInfo.cover}?param=300y300)`"
-            ></div>
+            <div class="pic my-cover" :style="`backgroundImage: url(${music.musicInfo.cover}?param=300y300)`"></div>
         </div>
         <div
             class="cover my-cover"
@@ -50,18 +47,10 @@
             </div>
             <div class="play-btns">
                 <v-icon class="other">mdi-repeat-once</v-icon>
-                <v-icon>mdi-skip-previous</v-icon>
-                <v-icon
-                    v-show="!music.playStatus"
-                    @click="playMusic"
-                    class="middle"
-                >mdi-play-circle-outline</v-icon>
-                <v-icon
-                    v-show="music.playStatus"
-                    @click="pauseMusic"
-                    class="middle"
-                >mdi-pause-circle-outline</v-icon>
-                <v-icon>mdi-skip-next</v-icon>
+                <v-icon @click="$store.dispatch('getMusicMp3', {prev: true})">mdi-skip-previous</v-icon>
+                <v-icon v-show="!music.playStatus" @click="playMusic" class="middle">mdi-play-circle-outline</v-icon>
+                <v-icon v-show="music.playStatus" @click="pauseMusic" class="middle">mdi-pause-circle-outline</v-icon>
+                <v-icon @click="$store.dispatch('getMusicMp3', {next: true})">mdi-skip-next</v-icon>
                 <v-icon class="other">mdi-volume-high</v-icon>
             </div>
             <div class="r">
@@ -97,9 +86,7 @@ export default {
                 return (
                     time >= item.time &&
                     time <
-                        (this.music.lyric[index + 1]
-                            ? this.music.lyric[index + 1].time
-                            : item.time)
+                        (this.music.lyric[index + 1] ? this.music.lyric[index + 1].time : item.time)
                 )
             })
 
@@ -182,6 +169,7 @@ export default {
             top: 0;
             transform: scale(1.1);
             filter: blur(15px);
+            transition: 0.3s;
         }
     }
     .cover {
@@ -193,6 +181,7 @@ export default {
         border-radius: 8px;
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
         z-index: 100;
+        transition: 0.3s;
         &.move {
             animation: move 1s 0.5s forwards;
         }
@@ -323,11 +312,7 @@ export default {
             .cur-progress {
                 height: 100%;
                 cursor: pointer;
-                background: linear-gradient(
-                    90deg,
-                    var(--theme-color),
-                    rgba(255, 255, 255, 0.5)
-                );
+                background: linear-gradient(90deg, var(--theme-color), rgba(255, 255, 255, 0.5));
                 background-repeat: no-repeat;
             }
         }
