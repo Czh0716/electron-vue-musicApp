@@ -2,7 +2,10 @@
     <div class="rankDetail">
         <div class="content" v-if="Object.keys(detailInfo).length">
             <div class="rank-header">
-                <div class="cover my-cover" :style="`backgroundImage: url(${detailInfo.album.picUrl}?param=200y200)`"></div>
+                <div
+                    class="cover my-cover"
+                    :style="`backgroundImage: url(${detailInfo.album.picUrl}?param=200y200)`"
+                ></div>
                 <div class="rank-info">
                     <div class="tit">
                         <div class="name">{{detailInfo.album.name}}</div>
@@ -60,12 +63,19 @@
                 >
                     <div class="name item">
                         <span class="num">{{(index + 1).toString().padStart(2, '0')}}</span>
-                        <v-icon class="collect">mdi-heart-outline</v-icon>
+                        <v-icon
+                            class="collect"
+                            :class="{liked: $store.getters.likeList.includes(item.id)}"
+                            @click.stop="$store.dispatch('likeMusic', {id: item.id, liked: !$store.getters.likeList.includes(item.id)})"
+                        >mdi-heart{{ $store.getters.likeList.includes(item.id) ?'' : '-outline'}}</v-icon>
 
                         <span class="text-cut">{{item.name}}</span>
                     </div>
                     <div class="artist item text-cut">
-                        <span v-for="(ar, index) in item.ar" :key="index">{{index === 0 ? ar.name : `/${ar.name}`}}</span>
+                        <span
+                            v-for="(ar, index) in item.ar"
+                            :key="index"
+                        >{{index === 0 ? ar.name : `/${ar.name}`}}</span>
                     </div>
                     <div class="album item text-cut">{{item.al.name}}</div>
                     <div class="duration item">{{item.dt | transTime}}</div>

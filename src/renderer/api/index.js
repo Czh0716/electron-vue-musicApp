@@ -59,3 +59,17 @@ export function getUserDetail(id) {
         method: 'get'
     })
 }
+
+export function getLikeList(id) {
+    return request({
+        url: `/likelist?uid=${id}`,
+        method: 'get'
+    })
+}
+
+export function likeMusic(id, liked = true) {
+    return request({
+        url: `/like?id=${id}&like=${liked}`,
+        method: 'get'
+    })
+}

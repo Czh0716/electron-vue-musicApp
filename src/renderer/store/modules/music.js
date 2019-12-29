@@ -1,4 +1,10 @@
-import { getMusicMp3, getMusicDetail, getLyric } from '@/api'
+import {
+    getMusicMp3,
+    getMusicDetail,
+    getLyric,
+    getLikeList,
+    likeMusic
+} from '@/api'
 const state = {
     musicInfo: {},
     audioEl: null,
@@ -8,8 +14,15 @@ const state = {
     volume: 1,
     isMute: false,
     playList: [],
+    likeList: [],
     playIndex: 0,
-    lyric: null
+    lyric: null,
+    playMode: 0,
+    playModes: {
+        0: 'mdi-repeat-once',
+        1: 'mdi-repeat',
+        2: 'mdi-shuffle-variant'
+    }
 }
 
 const mutations = {
@@ -69,6 +82,23 @@ const mutations = {
         state.audioEl.pause()
         state.currentTime = ''
         state.currentProgress = 0
+    },
+    SET_LIKE_LIST(state, likeList) {
+        if (Array.isArray(likeList)) {
+            state.likeList = likeList
+        } else {
+            const songIndex = state.likeList.findIndex(
+                item => item === likeList
+            )
+            songIndex !== -1
+                ? state.likeList.splice(songIndex, 1)
+                : state.likeList.push(likeList)
+        }
+    },
+    SET_PLAY_MODE(state) {
+        const overflow =
+            state.playMode + 1 >= Object.keys(state.playModes).length
+        state.playMode = overflow ? 0 : state.playMode + 1
     }
 }
 
@@ -141,11 +171,33 @@ const actions = {
             })
         })
         state.audioEl.addEventListener('ended', () => {
-            dispatch('getMusicMp3', { next: true })
+            switch (state.playMode) {
+                case 0:
+                    state.audioEl.play()
+                    break
+                case 1:
+                    dispatch('getMusicMp3', { next: true })
+                case 2:
+                    const rdmNum = parseInt(
+                        Math.random() * state.playList.length
+                    )
+                    dispatch('getMusicMp3', { id: state.playList[rdmNum].id })
+            }
         })
     },
     clearPlayList({ commit }) {
         commit('CLEAR_PLAY_LIST')
+    },
+    async getLikeList({ commit, state }, id) {
+        const { data } = await getLikeList(id)
+        commit('SET_LIKE_LIST', data.ids)
+    },
+    async likeMusic({ commit, dispatch }, { id, liked = true }) {
+        await likeMusic(id, liked)
+        commit('SET_LIKE_LIST', id)
+    },
+    setPlayMode({ commit }) {
+        commit('SET_PLAY_MODE')
     }
 }
 

@@ -348,6 +348,7 @@ export default {
         width: 240px;
         height: 700px;
         position: relative;
+
         .sticky {
             position: fixed;
             width: 240px;
@@ -357,7 +358,8 @@ export default {
     .user-info {
         padding: @paddingX;
         background-color: #fafafa;
-
+        border-top-right-radius: 16px;
+        overflow: hidden;
         .info-hd {
             display: flex;
             align-items: center;

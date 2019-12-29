@@ -1,7 +1,10 @@
 <template>
     <div class="detail">
         <div class="bg">
-            <div class="pic my-cover" :style="`backgroundImage: url(${music.musicInfo.cover}?param=300y300)`"></div>
+            <div
+                class="pic my-cover"
+                :style="`backgroundImage: url(${music.musicInfo.cover}?param=300y300)`"
+            ></div>
         </div>
         <div
             class="cover my-cover"
@@ -37,7 +40,10 @@
                 ></div>
             </div>
             <div class="l">
-                <v-icon>mdi-heart-outline</v-icon>
+                <v-icon
+                    :class="{liked}"
+                    @click="$store.dispatch('likeMusic', {id: music.musicInfo.id, liked: !liked})"
+                >mdi-heart{{liked ?'' : '-outline'}}</v-icon>
                 <v-icon>mdi-comment-processing-outline</v-icon>
                 <div class="time">
                     <span>{{music.currentTime}}</span>
@@ -46,10 +52,18 @@
                 </div>
             </div>
             <div class="play-btns">
-                <v-icon class="other">mdi-repeat-once</v-icon>
+                <v-icon @click="$store.dispatch('setPlayMode')">{{music.playModes[music.playMode]}}</v-icon>
                 <v-icon @click="$store.dispatch('getMusicMp3', {prev: true})">mdi-skip-previous</v-icon>
-                <v-icon v-show="!music.playStatus" @click="playMusic" class="middle">mdi-play-circle-outline</v-icon>
-                <v-icon v-show="music.playStatus" @click="pauseMusic" class="middle">mdi-pause-circle-outline</v-icon>
+                <v-icon
+                    v-show="!music.playStatus"
+                    @click="playMusic"
+                    class="middle"
+                >mdi-play-circle-outline</v-icon>
+                <v-icon
+                    v-show="music.playStatus"
+                    @click="pauseMusic"
+                    class="middle"
+                >mdi-pause-circle-outline</v-icon>
                 <v-icon @click="$store.dispatch('getMusicMp3', {next: true})">mdi-skip-next</v-icon>
                 <v-icon class="other">mdi-volume-high</v-icon>
             </div>
@@ -75,6 +89,10 @@ export default {
     computed: {
         music() {
             return this.$store.state.music
+        },
+
+        liked() {
+            return this.$store.getters.likeList.includes(this.music.musicInfo.id)
         },
         curLyric() {
             let time = Math.round(
@@ -269,6 +287,7 @@ export default {
             .v-icon {
                 margin-right: 10px;
                 font-size: 22px;
+                cursor: pointer;
             }
             .time {
                 font-size: 13px;
@@ -280,6 +299,11 @@ export default {
             > * {
                 margin-left: 10px;
             }
+        }
+        .l,
+        .r {
+            position: relative;
+            z-index: 10;
         }
         .play-btns {
             position: absolute;

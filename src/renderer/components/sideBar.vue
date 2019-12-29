@@ -56,8 +56,13 @@
                     <div class="cur-time">
                         <span>{{music.currentTime}}</span>
                         <div>
-                            <v-icon>mdi-heart-outline</v-icon>
-                            <v-icon>mdi-repeat-once</v-icon>
+                            <v-icon
+                                :class="{liked}"
+                                @click="$store.dispatch('likeMusic', {id: music.musicInfo.id, liked: !liked})"
+                            >mdi-heart{{liked ?'' : '-outline'}}</v-icon>
+                            <v-icon
+                                @click="$store.dispatch('setPlayMode')"
+                            >{{music.playModes[music.playMode]}}</v-icon>
                         </div>
                     </div>
                 </div>
@@ -121,6 +126,9 @@ export default {
     computed: {
         music() {
             return this.$store.state.music
+        },
+        liked() {
+            return this.$store.getters.likeList.includes(this.music.musicInfo.id)
         }
     },
     methods: {
@@ -197,6 +205,7 @@ export default {
                     .v-icon {
                         font-size: 20px;
                         margin-left: 4px;
+                        cursor: pointer;
                     }
                 }
             }

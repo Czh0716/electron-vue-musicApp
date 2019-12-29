@@ -50,7 +50,11 @@
                 >
                     <div class="name item">
                         <span class="num">{{(index + 1).toString().padStart(2, '0')}}</span>
-                        <v-icon class="collect">mdi-heart-outline</v-icon>
+                        <v-icon
+                            class="collect"
+                            :class="{liked: $store.getters.likeList.includes(item.id)}"
+                            @click.stop="$store.dispatch('likeMusic', {id: item.id, liked: !$store.getters.likeList.includes(item.id)})"
+                        >mdi-heart{{ $store.getters.likeList.includes(item.id) ?'' : '-outline'}}</v-icon>
                         <span class="text-cut">{{item.name}}</span>
                     </div>
                     <div class="artist item text-cut">

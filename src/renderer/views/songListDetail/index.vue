@@ -63,7 +63,11 @@
                 >
                     <div class="name item">
                         <span class="num">{{(index + 1).toString().padStart(2, '0')}}</span>
-                        <v-icon class="collect">mdi-heart-outline</v-icon>
+                        <v-icon
+                            class="collect"
+                            :class="{liked: $store.getters.likeList.includes(item.id)}"
+                            @click.stop="$store.dispatch('likeMusic', {id: item.id, liked: !$store.getters.likeList.includes(item.id)})"
+                        >mdi-heart{{ $store.getters.likeList.includes(item.id) ?'' : '-outline'}}</v-icon>
 
                         <span class="text-cut">{{item.name}}</span>
                     </div>
@@ -85,9 +89,7 @@
 export default {
     name: 'home_songListDetail',
     async created() {
-        const { data } = await this.$http.get(
-            `/playlist/detail?id=${this.$route.params.id}`
-        )
+        const { data } = await this.$http.get(`/playlist/detail?id=${this.$route.params.id}`)
         this.detailInfo = data.playlist
     },
     data() {

@@ -21,6 +21,7 @@
                         :class="{active: item.id === $store.state.music.musicInfo.id && $store.state.music.playStatus, isPlay: item.id === $store.state.music.musicInfo.id && $store.state.music.playStatus}"
                         v-for="item in $store.state.music.playList"
                         :key="item.id"
+                        @click="$store.dispatch('getMusicMp3', {id: item.id})"
                     >
                         <div class="name">{{item.name}}</div>
                         <div class="artist">
@@ -32,7 +33,10 @@
                         <div class="duration">{{item.duration | transTime(true)}}</div>
                         <div class="btns">
                             <v-icon>mdi-play-circle-outline</v-icon>
-                            <v-icon>mdi-heart-outline</v-icon>
+                            <v-icon
+                                :class="{liked: $store.getters.likeList.includes(item.id)}"
+                                @click.stop="$store.dispatch('likeMusic', {id: item.id, liked: !$store.getters.likeList.includes(item.id)})"
+                            >mdi-heart{{ $store.getters.likeList.includes(item.id) ?'' : '-outline'}}</v-icon>
                         </div>
                     </div>
                 </div>
@@ -198,7 +202,7 @@ export default {
         }
     }
 
-    .v-icon {
+    .volume {
         color: var(--theme-color) !important;
     }
     .play-list-btn {
@@ -218,6 +222,7 @@ export default {
         .v-icon {
             position: relative;
             z-index: 10;
+            color: var(--theme-color) !important;
         }
     }
     .volume {
@@ -239,10 +244,7 @@ export default {
             border-radius: 4px;
             @themeColor: pink;
             transform: rotate(180deg);
-            background: linear-gradient(
-                fade(@themeColor, 20%),
-                var(--theme-color)
-            );
+            background: linear-gradient(fade(@themeColor, 20%), var(--theme-color));
             transition: 0.4s;
             background-repeat: no-repeat;
             background-size: 100% 10%;

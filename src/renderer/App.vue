@@ -49,13 +49,15 @@ export default {
         //             .catch(err => {})
         //     })
         //     .catch(err => {})
+        console.log(this.$store)
+        this.$store.dispatch('getLikeList', this.$store.state.user.userInfo.userId)
     },
     mounted() {
         this.$nextTick(() => {
             this.$store.dispatch('initAudioElement', this.$refs.player)
         })
     },
-    
+
     data() {
         return {
             themeColor: '#F59898',
